@@ -29,35 +29,34 @@ let baseMaps = {
 
 // Create the map object with center, zoom level and default layer.
 let map = L.map('mapid', {
-  center: [34.0522, -100],
-  zoom: 5,
+  center: [44.0, -80.0],
+  zoom: 2,
   layers: [streets]
 })
 
 // Pass our map layers into our layers control and add the layers control to the map.
 L.control.layers(baseMaps).addTo(map);
 
+// Accessing the Toronto airline routes GeoJSON URL.
+let torontoData = "https://raw.githubusercontent.com/mcdoralds/databootcamp-mapping-earthquakes/Mapping_GeoJSON_Points/torontoRoutes.json";
 
-// Accessing the airport GeoJSON URL
-let airportData = "https://raw.githubusercontent.com/mcdoralds/databootcamp-mapping-earthquakes/Mapping_Multiple_Points/majorAirports.json"
 
-// // Loop through the cities array and create one marker for each city.
-// // cityData.forEach(function(city) {
-// //     console.log(city)
-// //     L.circleMarker(city.location, {
-// //       color: 'orange',
-// //       fillColor: 'orange', 
-// //           fillOpacity: 0.5,
-// //       radius: city.population/100000
-// //     })
-// //     .bindPopup("<h2>" + city.city + ", " + city.state + "</h2> <hr> <h3>Population " + city.population.toLocaleString() + "</h3>")
-// //     .addTo(map);
-// // });
+// Create a style for the lines.
+let myStyle = {
+  color: "#ffffa1",
+  weight: 2
+}
 
-// Grabbing GeoJSON data
-d3.json(airportData).then(function(data) {
+// Grabbing our GeoJSON data.
+d3.json(torontoData).then(function(data) {
   console.log(data);
-  // creating a GeoJSON  layer with the retrieved data
-  L.geoJson(data).addTo(map);
+// Creating a GeoJSON layer with the retrieved data.
+L.geoJSON(data, {
+  style: myStyle,
+  onEachFeature: function(feature, layer) {
+    layer.bindPopup("<h3 Airline: " + feature.properties.airline + "</h3> <hr><h3> Destination: "
+    + feature.properties.dst + "</h3>");
+  }
+})
+.addTo(map);
 });
-
