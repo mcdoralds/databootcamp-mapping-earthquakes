@@ -97,7 +97,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
 
 
   var legend = L.control({
-    position: "bottomoright"
+    position: "bottomright"
   });
 
   legend.onAdd = function() {
